@@ -942,20 +942,20 @@ const Radio = () => {
 
       const text = await res.text();
 
-    if (!res.ok) {
-      throw new Error(`Backend error ${res.status}: ${text}`);
-    }
+      if (!res.ok) {
+        throw new Error(`Backend error ${res.status}: ${text}`);
+      }
 
-    if (!text) {
-      throw new Error('Backend returned empty response.');
-    }
+      if (!text) {
+        throw new Error('Backend returned empty response.');
+      }
 
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (e) {
-      throw new Error('Backend did not return valid JSON.');
-    }
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error('Backend did not return valid JSON.');
+      }
       setProgress(98);
       setMsg('> Building graph data...');
 
