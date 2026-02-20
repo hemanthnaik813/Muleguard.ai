@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+
 import shutil
 import os
 import pandas as pd
@@ -8,16 +9,15 @@ import numpy as np
 import networkx as nx
 import time
 
-from app.services.graph_builder import build_transaction_graph
-from app.services.cycle_detector import detect_cycles
-from app.services.ring_manager import assign_ring_ids
-from app.services.smurf_detector import detect_smurfing
-from app.services.shell_detector import detect_shell_chains
-from app.services.anomaly_detector import detect_anomalies_with_scores
-from app.services.scoring_engine import calculate_suspicion_scores
-from app.database import init_db, SessionLocal, SuspiciousHistory
-
-
+# ✅ USE RELATIVE IMPORTS (VERY IMPORTANT)
+from .services.graph_builder import build_transaction_graph
+from .services.cycle_detector import detect_cycles
+from .services.ring_manager import assign_ring_ids
+from .services.smurf_detector import detect_smurfing
+from .services.shell_detector import detect_shell_chains
+from .services.anomaly_detector import detect_anomalies_with_scores
+from .services.scoring_engine import calculate_suspicion_scores
+from .database import init_db, SessionLocal, SuspiciousHistory
 # =====================================================
 # APP INITIALIZATION
 # =====================================================
