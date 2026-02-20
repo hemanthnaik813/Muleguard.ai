@@ -28,7 +28,10 @@ app = FastAPI(title="MuleGuard AI Backend")
 # =====================================================
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change to frontend URL in production
+    allow_origins=[
+        "http://localhost:3000",
+        "https://muleguard-ai-2.onrender.com"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
