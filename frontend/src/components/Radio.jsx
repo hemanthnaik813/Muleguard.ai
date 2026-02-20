@@ -9,7 +9,7 @@ const API_BASE =
   process.env.REACT_APP_API_URL ||
   (window.location.hostname === 'localhost'
     ? 'http://localhost:8000'
-    : 'https://muleguard-ai.onrender.com');
+    : 'https://muleguard-ai-1.onrender.com');
 
 // Icons
 const Icons = {
