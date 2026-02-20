@@ -1,19 +1,34 @@
-from fastapi import APIRouter, UploadFile, File
+# backend/api.py
+
+from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import shutil
 import os
 
-router = APIRouter()
+app = FastAPI(title="Muleguard AI Backend")
 
-@router.get("/")
+# CORS Configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can restrict later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Root endpoint
+@app.get("/")
 def home():
     return {"message": "Muleguard Backend Running Successfully 🚀"}
 
-@router.get("/health")
+# Health check endpoint
+@app.get("/health")
 def health_check():
     return {"status": "healthy"}
 
-@router.post("/upload/")
+# Upload endpoint
+@app.post("/upload/")
 async def upload_file(file: UploadFile = File(...)):
     try:
         upload_dir = "uploads"
@@ -24,6 +39,7 @@ async def upload_file(file: UploadFile = File(...)):
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
+        # Dummy response for frontend
         return {
             "suspicious_accounts": [],
             "fraud_rings": [],
@@ -36,4 +52,7 @@ async def upload_file(file: UploadFile = File(...)):
         }
 
     except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)})
+        return JSONResponse(
+            status_code=500,
+            content={"error": str(e)}
+        )
