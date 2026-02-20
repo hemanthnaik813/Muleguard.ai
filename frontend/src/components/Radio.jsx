@@ -940,15 +940,22 @@ const Radio = () => {
 
       clearInterval(progressTimer);
 
-      if (!res.ok) {
-        const errBody = await res.json().catch(() => ({ detail: res.statusText }));
-        const detail = typeof errBody.detail === 'object'
-          ? JSON.stringify(errBody.detail)
-          : errBody.detail || res.statusText;
-        throw new Error(`Backend error ${res.status}: ${detail}`);
-      }
+      const text = await res.text();
 
-      const data = await res.json();
+    if (!res.ok) {
+      throw new Error(`Backend error ${res.status}: ${text}`);
+    }
+
+    if (!text) {
+      throw new Error('Backend returned empty response.');
+    }
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      throw new Error('Backend did not return valid JSON.');
+    }
       setProgress(98);
       setMsg('> Building graph data...');
 
